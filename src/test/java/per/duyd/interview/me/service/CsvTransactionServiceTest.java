@@ -138,13 +138,19 @@ public class CsvTransactionServiceTest {
                         DateUtils.parseDate("20/10/2018 17:33:43", "dd/MM/yyyy HH:mm:ss"),
                         DateUtils.parseDate("20/10/2018 18:00:00", "dd/MM/yyyy HH:mm:ss"))
         );
+    }
 
-        /**
-         * TX10001,ACC334455,ACC778899,20/10/2018 12:47:55,25.00,PAYMENT,
-         * TX10002,ACC334455,ACC998877,20/10/2018 17:33:43,10.50,PAYMENT,
-         * TX10003,ACC998877,ACC778899,20/10/2018 18:00:00,5.00,PAYMENT,
-         * TX10004,ACC334455,ACC998877,20/10/2018 19:45:00,10.50,REVERSAL,TX10002
-         * TX10005,ACC334455,ACC778899,21/10/2018 09:30:00,7.25,PAYMENT,
-         */
+    @Test
+    public void getRelativeAccountBalance_shouldIgnoreReversalTransactionsWhenCalculatePayment() throws ParseException, LoadTransactionException {
+        csvTransactionService.loadTransactions("src/test/resources/transactions.csv");
+
+        assertEquals(
+                AccountBalance.builder().includedTransactionCount(1)
+                        .relativeBalance(BigDecimal.valueOf(-7.25).setScale(2, RoundingMode.CEILING)).build(),
+                csvTransactionService.getRelativeAccountBalance(
+                        "ACC334455",
+                        DateUtils.parseDate("20/10/2018 19:45:00", "dd/MM/yyyy HH:mm:ss"),
+                        DateUtils.parseDate("21/10/2018 09:30:00", "dd/MM/yyyy HH:mm:ss"))
+        );
     }
 }

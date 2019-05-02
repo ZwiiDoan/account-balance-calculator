@@ -5,6 +5,18 @@ plugins {
 
 mainClassName = 'per.duyd.interview.me.AccountBalanceCalculator'
 
+jar {
+    baseName = 'account-balance-calculator'
+    version = '0.1.0'
+    manifest {
+        attributes 'Main-Class': 'per.duyd.interview.me.AccountBalanceCalculator'
+    }
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+
 group 'per.duyd.training.me'
 version '1.0-SNAPSHOT'
 
