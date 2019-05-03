@@ -49,7 +49,7 @@ Number of transactions included is: 1
 * CsvTransactionService.java executes the core logic of searching `accountId`, `from`, `to` by:
     1. Create a set of reserved transaction ids related to the `accountId` on or after `from` date.
     2. Get a list of transactions related to the `accountId` in the date range `from` and `to` that match below criteria:
-        1. Transaction has not been reversed (Transaction id does not exist in the set of et of reserved transaction ids above)
+        1. Transaction has not been reversed (Transaction id does not exist in the set of reserved transaction ids above)
         2. Transaction type is PAYMENT
-    3. We some the amounts of the transaction list above to get account balance. Each amount is negative if `fromAccountId` = `accountId` and positive if `toAccountId` = `accountId`
+    3. We sum the amounts of the transaction list above to get account balance. Each amount is negative if `fromAccountId` = `accountId` and positive if `toAccountId` = `accountId`
     4. We also print out the size of the transaction list which is the number of transactions included.
